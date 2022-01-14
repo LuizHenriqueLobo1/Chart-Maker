@@ -1,105 +1,4 @@
-const PROJECT = {
-    state: "Acre",
-    periods: [2019, 2020, 2021],
-    mesoregions: [
-        {
-            name: "Vale do Juruá",
-            counties: [],
-            attributes: [
-                { name: "Quantidade de Escolas", values: [203, 462, 431] }, 
-                { name: "Dinheiro investido na Saúde", values: [4988327, 3108225, 3830780] }
-            ],
-            categorics: []
-        }
-    ],
-    microregions: [
-        { 
-            name: "Cruzeiro do Sul",
-            counties: [],
-            attributes: [
-                { name: "Quantidade de Escolas", values: [104, 295, 245] }, 
-                { name: "Dinheiro investido na Saúde", values: [2361265, 1938002, 2342872] }
-            ],
-            categorics: []
-        },
-        {
-            name: "Tarauacá",
-            counties: [],
-            attributes: [
-                { name: "Quantidade de Escolas", values: [99, 167, 186] }, 
-                { name: "Dinheiro investido na Saúde", values: [2627062, 1170223, 1487908] }
-            ],
-            categorics: []
-        }
-    ],
-    counties: [
-        { 
-            name: "Cruzeiro do Sul", 
-            attributes: [ 
-                { name: "Quantidade de Escolas", values: [13, 14, 36] }, 
-                { name: "Dinheiro investido na Saúde", values: [361043, 606093, 539282] } 
-            ],
-            categorics: [] 
-        },
-        { 
-            name: "Mâncio Lima", 
-            attributes: [ 
-                { name: "Quantidade de Escolas", values: [42, 30, 92] }, 
-                { name: "Dinheiro investido na Saúde", values: [606514, 498013, 127938] } 
-            ], 
-            categorics: [] 
-        },
-        { 
-            name: "Marechal Thaumaturgo",
-            attributes: [ 
-                { name: "Quantidade de Escolas", values: [18, 95, 11] }, 
-                { name: "Dinheiro investido na Saúde", values: [771619, 111428, 386845] } 
-            ], 
-            categorics: [] 
-        },
-        { 
-            name: "Porto Walter", 
-            attributes: [
-                { name: "Quantidade de Escolas", values: [15, 59, 39] }, 
-                { name: "Dinheiro investido na Saúde", values: [389924, 237276, 315409] } 
-            ], 
-            categorics: [] 
-        },
-        { 
-            name: "Rodrigues Alves", 
-            attributes: [
-                { name: "Quantidade de Escolas", values: [16, 97, 67] }, 
-                { name: "Dinheiro investido na Saúde", values: [232165, 485192, 973398] } 
-            ], 
-            categorics: [] 
-        },
-        { 
-            name: "Feijó", 
-            attributes: [
-                { name: "Quantidade de Escolas", values: [26, 75, 73] }, 
-                { name: "Dinheiro investido na Saúde", values: [969826, 456728, 780292] } 
-            ], 
-            categorics: [] 
-        },
-        { 
-            name: "Jordão", 
-            attributes: [
-                { name: "Quantidade de Escolas", values: [49, 7, 91] }, 
-                { name: "Dinheiro investido na Saúde", values: [887294, 456742, 572069] } 
-            ], 
-            categorics: [] 
-        },
-        { 
-            name: "Tarauacá", 
-            attributes: [ 
-                { name: "Quantidade de Escolas", values: [24, 85, 22] }, 
-                { name: "Dinheiro investido na Saúde", values: [769942, 256753, 135547] } 
-            ], 
-            categorics: [] 
-        },
-    ],
-}
-
+const PROJECT = loadProject();
 const CHARTS = ["Line", "Treemap", "Bubble", "Bar", "Sunburst"];
 const DIV = document.querySelector("#chart");
 
@@ -111,6 +10,13 @@ window.onload = () => {
         select.appendChild(option);
     });
     updateProject();
+}
+
+function loadProject() {
+    let request = new XMLHttpRequest();
+    request.open("GET", "./data.json", false);
+    request.send();
+    return JSON.parse(request.responseText);
 }
 
 function updateProject() {
