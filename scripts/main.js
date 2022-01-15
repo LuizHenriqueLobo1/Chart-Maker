@@ -43,7 +43,7 @@ function getSelectedAttributes() {
     let selectedAttributes = [];
     for(let i = 0; i < PROJECT.attributes.length; i++) {
         let check = document.querySelector(`#check-${i + 1}`);
-        if (check.checked) selectedAttributes.push(check.value);
+        if (check.checked) selectedAttributes.push(i);
     }
     return selectedAttributes;
 }
@@ -56,7 +56,7 @@ document.querySelector("#hider").addEventListener("click", () => {
         button.textContent = "Hide";
     } else {
         select.style.display = "none";
-        button.textContent = "Show";
+        button.textContent = "Attributes";
     }
 });
 
@@ -76,15 +76,15 @@ function updateProject() {
 }
 
 function renderChart() {
-    let selectedAttributes = getSelectedAttributes();
+    let attributes = getSelectedAttributes();
     let selectedChart = document.querySelector("#charts").value;
     switch(selectedChart) {
         case "Line": {
-            line();
+            line(attributes);
             break;
         }
         case "Bar": {
-            bar();
+            bar(attributes);
             break;
         }
         case "Treemap": {
@@ -102,16 +102,18 @@ const DIV    = document.querySelector("#chart");
 const CONFIG = { responsive: true };
 
 // Basics
-function line() {
+function line(attributes) {
 
-    let trace = {
-        x: [2001, 2002, 2003, 2004, 2005],
-        y: [3928, 8453, 1425, 2356, 5234],
-        type: "scatter",
-        name: "Casos de Diabetes"
-    }
+    let data = [];
 
-    let data = [ trace ];
+    attributes.forEach((attribute) => {
+        data.push({
+            x: PROJECT.periods,
+            y: PROJECT.counties[0].attributes[attribute].values,
+            type: "scatter",
+            name: PROJECT.attributes[attribute].name
+        });
+    });
 
     let layout = {
         title: "Cachoeira",
@@ -122,16 +124,18 @@ function line() {
     Plotly.newPlot(DIV, data, layout, CONFIG);
 }
 
-function bar() {
+function bar(attributes) {
 
-    let bar = {
-        x: [2001, 2002, 2003, 2004, 2005],
-        y: [3928, 8453, 1425, 2356, 5234],
-        type: "bar",
-        name: "Casos de Diabetes"
-    }
+    let data = [];
 
-    let data = [ bar ];
+    attributes.forEach((attribute) => {
+        data.push({
+            x: PROJECT.periods,
+            y: PROJECT.counties[0].attributes[attribute].values,
+            type: "bar",
+            name: PROJECT.attributes[attribute].name
+        });
+    });
 
     let layout = {
         title: "Cachoeira",
