@@ -5,6 +5,6 @@ Um projeto focado em estudar diferentes tipos de gráficos para análise de dado
 ### Gráficos
 - [x] Line
 - [x] Bar
-- [x] Bubble
+- [ ] Bubble
 - [x] Treemap
 - [x] Sunburst
