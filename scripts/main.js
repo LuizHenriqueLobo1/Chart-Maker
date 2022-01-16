@@ -3,7 +3,8 @@ const CHARTS = ["Line", "Bar", "Treemap", "Sunburst"];
 
 window.onload = () => {
     loadSelectCharts();
-    loadSelectAttributes();
+    loadCustomSelect("attributes", PROJECT.attributes);
+    loadCustomSelect("periods", PROJECT.periods);
     updateProject();
 }
 
@@ -16,19 +17,24 @@ function loadSelectCharts() {
     });
 }
 
-function loadSelectAttributes() {
-    let select = document.querySelector("#attributes");
+function loadCustomSelect(id, array) {
+    let select = document.querySelector(`#${id}`);
     select.style.display = "none";
-    PROJECT.attributes.forEach((attribute, index) => {
+    array.forEach((element, index) => {
         let div   = document.createElement("div");
         let check = document.createElement("input");
         let label = document.createElement("label");
-
         let check_id = `check-${index + 1}`;
 
-        label.textContent = attribute.name;
+        if(typeof element === "number") {
+            label.textContent = element;
+            check.setAttribute("value", element);
+        } else {
+            label.textContent = element.name;
+            check.setAttribute("value", element.name);
+        }
+
         check.setAttribute("type", "checkbox");
-        check.setAttribute("value", attribute.name);
         check.setAttribute("id", `${check_id}`);
         label.setAttribute("for", `${check_id}`);
         div.classList = "option";
@@ -48,17 +54,21 @@ function getSelectedAttributes() {
     return selectedAttributes;
 }
 
-document.querySelector("#hider").addEventListener("click", () => {
-    let button = document.querySelector("#hider");
-    let select = document.querySelector("#attributes");
-    if(select.style.display === "none") {
-        select.style.display = "flex";
-        button.textContent = "Hide";
-    } else {
-        select.style.display = "none";
-        button.textContent = "Attributes";
+function showCustomSelect(id) {
+    if(id.includes("1")) {
+        hideSomeone(document.querySelector("#attributes"));
+    } else if(id.includes("2")) {
+        hideSomeone(document.querySelector("#periods"));
     }
-});
+}
+
+function hideSomeone(element) {
+    if(element.style.display === "none") {
+        element.style.display = "flex";
+    } else {
+        element.style.display = "none";
+    }
+}
 
 function loadProject() {
     let request = new XMLHttpRequest();
